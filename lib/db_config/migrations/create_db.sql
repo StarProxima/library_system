@@ -1,0 +1,3 @@
+DROP DATABASE library;
+
+CREATE DATABASE library;
