@@ -1,44 +1,48 @@
 require 'glimmer-dsl-libui'
 require './lib/models/author'
+require_relative 'author_controller'
 
 class AuthorView
   include Glimmer
 
-  PAGE_SIZE = 20
+  PAGE_SIZE = 10
 
   def initialize
-    # @controller = TabStudentsController.new(self)
+    @controller = AuthorController.new(self)
     @items = []
     @current_page = 1
     @total_count = 0
-
-    @items = [
-      Author.new(1, 'Иван', 'Иванов'),
-      Author.new(2, 'Петр', 'Петров'),
-      Author.new(3, 'Сидор', 'Сидоров'),
-    ]
 
   end
 
   def on_create
     update(@items)
-    # @controller.on_view_created
-    # @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+    @controller.on_view_created
+    @controller.refresh_data(@current_page, PAGE_SIZE)
   end
 
   def update(authors)
-    items = []
+    @items = []
 
     authors.each do |author|
-      items << Struct.new(:номер, :имя_автора, :фамилия_автора).new(author.id, author.first_name, author.last_name)
+      @items << Struct.new(:номер, :имя_автора, :фамилия_автора).new(author.id, author.first_name, author.last_name)
     end
 
-    @table.model_array = items
+
+
+    @table.model_array =  @items
+    @page_label.text = "#{@current_page} / #{(@total_count / PAGE_SIZE.to_f).ceil}"
   end
 
   def total_pages
     (@items.size.to_f / PAGE_SIZE).ceil
   end
+
+  def update_student_count(new_cnt)
+    @total_count = new_cnt
+    @page_label.text = "#{@current_page} / #{(@total_count / PAGE_SIZE.to_f).ceil}"
+  end
+
 
   def selected_index
     (@current_page - 1) * PAGE_SIZE
@@ -91,7 +95,7 @@ class AuthorView
 
             on_clicked do
               @current_page = [@current_page - 1, 1].max
-              # @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+              @controller.refresh_data(@current_page, PAGE_SIZE)
             end
 
           }
@@ -100,8 +104,8 @@ class AuthorView
             stretchy true
 
             on_clicked do
-              @current_page = [@current_page + 1, (@total_count / STUDENTS_PER_PAGE.to_f).ceil].min
-              # @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+              @current_page = [@current_page + 1, (@total_count / PAGE_SIZE.to_f).ceil].min
+              @controller.refresh_data(@current_page, PAGE_SIZE)
             end
           }
         }

@@ -1,13 +1,9 @@
 require 'mysql2'
+require_relative '../data_sources/db_client'
 
 class AuthorDBDataSource
-  def initialize(host, username, password, database)
-    @client = Mysql2::Client.new(
-      host: host,
-      username: username,
-      password: password,
-      database: database
-    )
+  def initialize
+    @client = DBClient.instance
   end
 
   def add(author)
@@ -29,7 +25,7 @@ class AuthorDBDataSource
     query = "SELECT * FROM Author WHERE AuthorID=#{id}"
     result = @client.query(query).first
     if result
-      Author.new(result['AuthorID'], result['FirstName'], result['LastName'])
+      Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'])
     else
       nil
     end
@@ -39,10 +35,19 @@ class AuthorDBDataSource
     offset = (page_num - 1) * page_size
     query = "SELECT * FROM Author ORDER BY #{sort_field} #{sort_direction} LIMIT #{page_size} OFFSET #{offset}"
     results = @client.query(query)
+
     authors = []
     results.each do |result|
-      authors << Author.new(result['AuthorID'], result['FirstName'], result['LastName'])
+      authors << Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'])
     end
+
     authors
+  end
+
+  def count
+    query = "SELECT COUNT(*) FROM Author"
+    result = @client.query(query).first
+
+    result[:'COUNT(*)']
   end
 end

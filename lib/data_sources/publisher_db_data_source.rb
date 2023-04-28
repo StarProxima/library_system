@@ -1,13 +1,9 @@
 require 'mysql2'
+require_relative 'db_client'
 
 class PublisherDBDataSource
   def initialize(host, username, password, database)
-    @client = Mysql2::Client.new(
-      host: host,
-      username: username,
-      password: password,
-      database: database
-    )
+    @client = DBClient.instance
   end
 
   def add(publisher)
