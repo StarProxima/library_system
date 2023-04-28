@@ -17,7 +17,6 @@ class AuthorView
 
   def on_create
     update(@items)
-    @controller.on_view_created
     @controller.refresh_data(@current_page, PAGE_SIZE)
   end
 
@@ -25,7 +24,7 @@ class AuthorView
     @items = []
 
     authors.each do |author|
-      @items << Struct.new(:номер, :имя_автора, :фамилия_автора).new(author.id, author.first_name, author.last_name)
+      @items << Struct.new(:номер, :имя_автора, :фамилия_автора, :действие_1, :действие_2).new(author.id, author.first_name, author.last_name, 'Изменить', 'Удалить')
     end
 
 
@@ -83,6 +82,8 @@ class AuthorView
             'Номер' => :text,
             'Имя автора' => :text,
             'Фамилия автора' => :text,
+            'Действие 1' => {button: {on_clicked: ->(row) { @controller.edit(row) }}},
+            'Действие 2' => {button: {on_clicked: ->(row) {@controller.remove(row)}}}
           }
 
         )

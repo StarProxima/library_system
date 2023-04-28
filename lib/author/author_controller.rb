@@ -16,8 +16,22 @@ class AuthorController
     @author_rep = AuthorDBDataSource.new
   end
 
-  def on_view_created
+  def edit (number)
+    author = @state_notifier.get(number)
+    puts author.id
+    # @view.show_edit_dialog(author)
+  end
 
+  def add (number)
+    author = @state_notifier.get(number)
+    puts author
+    # @view.show_add_dialog(author)
+  end
+
+  def remove (number)
+    author = @state_notifier.get(number)
+    puts author
+    # @view.show_remove_dialog(author)
   end
 
   def refresh_data(page, per_page)
