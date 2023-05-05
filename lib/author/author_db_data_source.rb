@@ -6,14 +6,13 @@ class AuthorDBDataSource
     @client = DBClient.instance
   end
 
-
   def add(author)
-    query = "INSERT INTO Author (FirstName, LastName) VALUES ('#{author.first_name}', '#{author.last_name}')"
+    query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', '#{author.father_name}')"
     @client.query(query)
   end
 
   def change(author)
-    query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}' WHERE AuthorID=#{author.id}"
+    query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}', FatherName='#{author.father_name}' WHERE AuthorID=#{author.id}"
     @client.query(query)
   end
 
@@ -26,7 +25,7 @@ class AuthorDBDataSource
     query = "SELECT * FROM Author WHERE AuthorID=#{id}"
     result = @client.query(query).first
     if result
-      Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'])
+      Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'], result[:'FatherName'])
     else
       nil
     end
@@ -39,7 +38,7 @@ class AuthorDBDataSource
 
     authors = []
     results.each do |result|
-      authors << Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'])
+      authors << Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'], result[:'FatherName'])
     end
 
     authors

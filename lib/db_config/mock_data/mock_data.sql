@@ -1,51 +1,53 @@
 USE library;
 
--- Add test data to Author table
-INSERT INTO Author (FirstName, LastName)
+-- Insert 30 authors
+INSERT INTO Author (FirstName, LastName, FatherName)
 VALUES
-       ('John', 'Doe'),
-       ('Jane', 'Doe'),
-       ('Mark', 'Smith'),
-       ('Emily', 'Jones'),
-       ('David', 'Lee'),
-       ('Sarah', 'Kim'),
-       ('Michael', 'Brown'),
-       ('Jennifer', 'Davis'),
-       ('William', 'Wilson'),
-       ('Olivia', 'Taylor'),
-       ('Daniel', 'Clark'),
-       ('Sophia', 'Anderson'),
-       ('Matthew', 'Thomas'),
-       ('Isabella', 'Harris'),
-       ('Luke', 'Martin'),
-       ('Ava', 'White'),
-       ('Christopher', 'Jackson'),
-       ('Mia', 'Nelson'),
-       ('Andrew', 'Johnson'),
-       ('Ella', 'Robinson'),
-       ('Joshua', 'Wright'),
-       ('Grace', 'Thompson'),
-       ('Nicholas', 'Parker'),
-       ('Chloe', 'Evans'),
-       ('Ryan', 'Edwards'),
-       ('Victoria', 'Collins'),
-       ('Tyler', 'Green'),
-       ('Natalie', 'Baker'),
-       ('Brandon', 'Allen'),
-       ('Lily', 'King');
--- Add test data to Publisher table
-INSERT INTO Publisher (Name)
+       ('John', 'Doe', 'Paul'),
+       ('Jane', 'Doe', NULL),
+       ('Robert', 'Johnson', 'Michael'),
+       ('Emily', 'Smith', NULL),
+       ('David', 'Lee', 'William'),
+       ('Sarah', 'Taylor', NULL),
+       ('Thomas', 'Brown', NULL),
+       ('Elizabeth', 'Wilson', 'Jennifer'),
+       ('Richard', 'Anderson', 'Matthew'),
+       ('Karen', 'Martin', NULL),
+       ('William', 'Thompson', NULL),
+       ('Nancy', 'Garcia', NULL),
+       ('Michael', 'Davis', 'Anthony'),
+       ('Mary', 'Miller', NULL),
+       ('Christopher', 'Jackson', NULL),
+       ('Jessica', 'Perez', 'Marie'),
+       ('Brian', 'Moore', NULL),
+       ('Megan', 'Allen', NULL),
+       ('Anthony', 'Young', NULL),
+       ('Laura', 'Harris', 'Christine'),
+       ('Kevin', 'King', NULL),
+       ('Stephanie', 'Scott', NULL),
+       ('Jason', 'Turner', 'Eric'),
+       ('Melissa', 'Walker', NULL),
+       ('Mark', 'Collins', NULL),
+       ('Tiffany', 'Nelson', NULL),
+       ('Eric', 'Gonzalez', NULL),
+       ('Amy', 'Carter', 'Jennifer'),
+       ('Matthew', 'Baker', NULL),
+       ('Samantha', 'Edwards', NULL);
+
+-- Insert 5 publishers
+INSERT INTO Publisher (Name, Email)
 VALUES
-       ('Penguin Random House'),
-       ('HarperCollins'),
-       ('Simon & Schuster'),
-       ('Macmillan Publishers'),
-       ('Hachette Livre');
--- Add test data to Book table
+       ('Penguin Random House', 'info@penguinrandomhouse.com'),
+       ('HarperCollins Publishers', NULL),
+       ('Hachette Book Group', NULL),
+       ('Macmillan Publishers', 'info@macmillan.com'),
+       ('Simon & Schuster', 'info@simonandschuster.com');
+
+-- Insert 5 books
 INSERT INTO Book (Title, AuthorID, PublisherID)
 VALUES
-       ('The Great Gatsby', 1, 1),
-       ('To Kill a Mockingbird', 2, 2),
+       ('To Kill a Mockingbird', 1, 1),
+       ('The Great Gatsby', 2, 2),
        ('1984', 3, 3),
        ('Pride and Prejudice', 4, 4),
        ('The Catcher in the Rye', 5, 5);

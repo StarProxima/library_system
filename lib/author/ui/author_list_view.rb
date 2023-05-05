@@ -51,7 +51,7 @@ class AuthorListView
     authors.each do |author|
       i += 1
       item_num = ((@current_page - 1) * PAGE_SIZE) + i
-      @items << Struct.new(:№, :id, :имя_автора, :фамилия_автора).new(item_num, author.id, author.first_name, author.last_name)
+      @items << Struct.new(:№, :id, :имя_автора, :фамилия_автора, :отчество).new(item_num, author.author_id, author.first_name, author.last_name, author.father_name)
     end
 
     @table.model_array = @items
@@ -93,7 +93,7 @@ class AuthorListView
 
 
           combobox { |c|
-            items ['ID','Имя автора','Фамилия автора']
+            items ['ID','Имя автора','Фамилия автора', 'Отчество']
             selected 0
             on_selected do
               @controller.sort(@current_page, PAGE_SIZE, c.selected)
@@ -117,6 +117,7 @@ class AuthorListView
             'ID' => :text,
             'Имя автора' => :text,
             'Фамилия автора' => :text,
+            'Отчество' => :text,
           },
           per_page: PAGE_SIZE,
 

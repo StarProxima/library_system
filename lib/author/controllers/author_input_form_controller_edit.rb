@@ -31,16 +31,14 @@ class AuthorInputFormControllerEdit
   end
 
   def process_fields(fields)
-    # begin
-    new_item = Author.new(@item_id, *fields.values)
-
-    @author_rep.change(new_item)
-
-    @view.close
-    # rescue ArgumentError => e
-    #   api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')
-    #   api.call(0, e.message, 'Error', 0)
-    # end
+    begin
+      new_item = Author.new(@item_id, *fields.values)
+      @author_rep.change(new_item)
+      @view.close
+    rescue ArgumentError => e
+      api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')
+      api.call(0, e.message, 'Error', 0)
+    end
   end
 
   private

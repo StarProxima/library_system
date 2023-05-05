@@ -12,7 +12,7 @@ class AuthorListController
     @state_notifier = ListStateNotifier.new
     @state_notifier.add_listener(@view)
     @author_rep = AuthorDBDataSource.new
-    @sort_columns = %w[AuthorID FirstName LastName]
+    @sort_columns = %w[AuthorID FirstName LastName FatherName]
     @sort_by = @sort_columns.first
   end
 

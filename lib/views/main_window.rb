@@ -19,9 +19,6 @@ class MainWindow
           AuthorListView.new.create
         }
 
-        tab_item('Вкладка 2') {
-          AuthorView.new.build
-        }
 
         tab_item('Студенты') {
           @view_tab_students.create
