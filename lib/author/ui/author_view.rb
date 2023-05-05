@@ -1,6 +1,6 @@
 require 'glimmer-dsl-libui'
 require './lib/models/author'
-require_relative 'author_controller'
+require_relative '../controllers/author_controller'
 
 class AuthorView
   include Glimmer
@@ -26,8 +26,6 @@ class AuthorView
     authors.each do |author|
       @items << Struct.new(:номер, :имя_автора, :фамилия_автора, :действие_1, :действие_2).new(author.id, author.first_name, author.last_name, 'Изменить', 'Удалить')
     end
-
-
 
     @table.model_array =  @items
     @page_label.text = "#{@current_page} / #{(@total_count / PAGE_SIZE.to_f).ceil}"

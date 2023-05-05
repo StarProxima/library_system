@@ -5,7 +5,7 @@ require './lib/repositories/student_repository'
 require './lib/repositories/adapters/db_source_adapter'
 require './lib/repositories/containers/data_list_student_short'
 require './lib/state_holders/list_state_notifier'
-require_relative 'author_db_data_source'
+require_relative '../author_db_data_source'
 require 'win32api'
 
 class AuthorController
