@@ -45,14 +45,14 @@ class AuthorListController
   end
 
   def delete_selected(current_page, per_page, selected_row)
-    # begin
-    #   item_num = (current_page - 1) * per_page + selected_row
+    begin
       item = @state_notifier.get(selected_row)
-      @state_notifier.delete(item)
       @author_rep.delete(item.id)
-    # rescue
-    #   on_db_conn_error
-    # end
+      @state_notifier.delete(item)
+    rescue
+      api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')
+      api.call(0, "You cannot delete the author because he is associated with some book", "Error", 0)
+    end
   end
 
   def refresh_data(page, per_page)
@@ -74,7 +74,6 @@ class AuthorListController
   def on_db_conn_error
     api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')
     api.call(0, "No connection to DB", "Error", 0)
-    # TODO: Возможность переключения на JSON помимо exit
     exit(false)
   end
 end
