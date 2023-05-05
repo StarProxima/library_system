@@ -26,7 +26,7 @@ class AuthorInputForm
         @student_form = form {
           stretchy false
 
-          fields = [[:first_name, 'Имя автора', false], [:last_name, 'Фамилия автора', false]]
+          fields = [[:first_name, 'Имя автора'], [:last_name, 'Фамилия автора'], [:father_name, 'Отчество автора']]
 
           fields.each do |field|
             @entries[field[0]] = entry {

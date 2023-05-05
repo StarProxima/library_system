@@ -7,12 +7,12 @@ class AuthorDBDataSource
   end
 
   def add(author)
-    query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', '#{author.father_name}')"
+    query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', #{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"})"
     @client.query(query)
   end
 
   def change(author)
-    query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}', FatherName='#{author.father_name}' WHERE AuthorID=#{author.id}"
+    query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}', FatherName=#{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"} WHERE AuthorID=#{author.author_id}"
     @client.query(query)
   end
 

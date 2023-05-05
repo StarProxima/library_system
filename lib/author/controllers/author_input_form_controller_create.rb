@@ -22,12 +22,9 @@ class AuthorInputFormControllerCreate
 
   def process_fields(fields)
     begin
-      first_name = fields.delete(:first_name)
-      last_name = fields.delete(:last_name)
-
-      return if  first_name.nil? || last_name.nil?
-
-      item = Author.new(-1, first_name, last_name)
+      puts fields
+      item = Author.new(-1, *fields.values)
+      puts item
       @author_rep.add(item)
       @view.close
     rescue ArgumentError => e

@@ -28,6 +28,7 @@ class AuthorInputFormControllerEdit
   def populate_fields(item)
     @view.set_value(:first_name, item.first_name)
     @view.set_value(:last_name, item.last_name)
+    @view.set_value(:father_name, item.father_name)
   end
 
   def process_fields(fields)

@@ -2,7 +2,11 @@ class Book
   attr_reader :book_id, :title, :author_id, :publisher_id
 
   def initialize(book_id, title, author_id, publisher_id)
-    validate_all_null(book_id, title, author_id, publisher_id)
+    validate_null('book_id', book_id)
+    validate_null('title', title)
+    validate_null('author_id', author_id)
+    validate_null('publisher_id', publisher_id)
+
     validate_title_length(title)
 
     @book_id = book_id
@@ -13,11 +17,9 @@ class Book
 
   private
 
-  def validate_all_null(*args)
-    args.each do |arg|
-      if arg.nil?
-        raise ArgumentError, "Argument '#{caller_locations(1,1)[0].label}' cannot be null"
-      end
+  def validate_null(name, value)
+    if value.nil?
+      raise ArgumentError, "Argument '#{name}' cannot be null"
     end
   end
 

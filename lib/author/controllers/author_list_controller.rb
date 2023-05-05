@@ -44,7 +44,7 @@ class AuthorListController
   def show_modal_edit(current_page, per_page, selected_row)
     # item_num = (current_page - 1) * per_page + selected_row
 
-    item_id = @state_notifier.get(selected_row).id
+    item_id = @state_notifier.get(selected_row).author_id
 
     controller = AuthorInputFormControllerEdit.new(self, item_id)
     view = AuthorInputForm.new(controller)
@@ -55,7 +55,7 @@ class AuthorListController
   def delete_selected(current_page, per_page, selected_row)
     begin
       item = @state_notifier.get(selected_row)
-      @author_rep.delete(item.id)
+      @author_rep.delete(item.author_id)
       @state_notifier.delete(item)
     rescue
       api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')

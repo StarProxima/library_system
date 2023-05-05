@@ -4,7 +4,9 @@ class Publisher
   attr_reader :publisher_id, :name, :email
 
   def initialize(publisher_id, name, email = nil)
-    validate_all_null(name)
+    validate_null('publisher_id', publisher_id)
+    validate_null('name', name)
+
     validate_name_length(name)
     validate_email(email)
 
@@ -15,11 +17,9 @@ class Publisher
 
   private
 
-  def validate_all_null(*args)
-    args.each do |arg|
-      if arg.nil?
-        raise ArgumentError, "Argument '#{caller_locations(1,1)[0].label}' cannot be null"
-      end
+  def validate_null(name, value)
+    if value.nil?
+      raise ArgumentError, "Argument '#{name}' cannot be null"
     end
   end
 
