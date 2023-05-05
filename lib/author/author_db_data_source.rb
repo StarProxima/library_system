@@ -31,9 +31,30 @@ class AuthorDBDataSource
     end
   end
 
-  def get_list(page_size, page_num, sort_field, sort_direction)
+  # def get_list(page_size, page_num, sort_field, sort_direction)
+  #   offset = (page_num - 1) * page_size
+  #   query = "SELECT * FROM Author ORDER BY #{sort_field} #{sort_direction} LIMIT #{page_size} OFFSET #{offset}"
+  #   results = @client.query(query)
+  #
+  #   authors = []
+  #   results.each do |result|
+  #     authors << Author.new(result[:'AuthorID'], result[:'FirstName'], result[:'LastName'], result[:'FatherName'])
+  #   end
+  #
+  #   authors
+  # end
+
+  def get_list(page_size, page_num, sort_field, sort_direction, has_father_name = nil)
     offset = (page_num - 1) * page_size
-    query = "SELECT * FROM Author ORDER BY #{sort_field} #{sort_direction} LIMIT #{page_size} OFFSET #{offset}"
+    query = "SELECT * FROM Author"
+
+    if has_father_name == true
+      query += " WHERE FatherName IS NOT NULL"
+    elsif has_father_name == false
+      query += " WHERE FatherName IS NULL"
+    end
+
+    query += " ORDER BY #{sort_field} #{sort_direction} LIMIT #{page_size} OFFSET #{offset}"
     results = @client.query(query)
 
     authors = []
@@ -43,6 +64,7 @@ class AuthorDBDataSource
 
     authors
   end
+
 
   def count
     query = "SELECT COUNT(*) FROM Author"

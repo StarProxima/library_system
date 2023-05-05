@@ -87,11 +87,21 @@ class AuthorListView
 
         vertical_box {
           stretchy false
+
+          label {
+            text 'Отчество'
+          }
+          combobox { |c|
+            items ['Не важно','Есть','Нет']
+            selected 0
+            on_selected do
+              @controller.filter_father_name(@current_page, PAGE_SIZE, c.selected)
+            end
+          }
+
           label {
             text 'Сортировка'
           }
-
-
           combobox { |c|
             items ['ID','Имя автора','Фамилия автора', 'Отчество']
             selected 0
