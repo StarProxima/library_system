@@ -9,7 +9,7 @@ class AuthorInputForm
   include Glimmer
 
   def initialize(controller, existing_student = nil)
-    @existing_student = existing_student.to_hash unless existing_student.nil?
+    @item = existing_student.to_hash unless existing_student.nil?
     @controller = controller
     @entries = {}
   end
@@ -19,14 +19,14 @@ class AuthorInputForm
   end
 
   def create
-    @root_container = window('Универ', 300, 150) {
+    @root_container = window('Автор', 300, 70) {
       resizable false
 
       vertical_box {
         @student_form = form {
           stretchy false
 
-          fields = [[:last_name, 'Фамилия', false], [:first_name, 'Имя', false], [:father_name, 'Отчество', false], [:git, 'Гит', true], [:telegram, 'Телеграм', true], [:email, 'Почта', true], [:phone, 'Телефон', true]]
+          fields = [[:first_name, 'Имя автора', false], [:last_name, 'Фамилия автора', false]]
 
           fields.each do |field|
             @entries[field[0]] = entry {
