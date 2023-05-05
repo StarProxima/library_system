@@ -33,8 +33,12 @@ class AuthorListView
   def update(authors)
     @items = []
 
+    i = 0
+    item_num = 0
     authors.each do |author|
-      @items << Struct.new(:номер, :имя_автора, :фамилия_автора).new(author.id, author.first_name, author.last_name)
+      i += 1
+      item_num = ((@current_page - 1) * PAGE_SIZE) + i
+      @items << Struct.new(:№, :id, :имя_автора, :фамилия_автора).new(item_num, author.id, author.first_name, author.last_name)
     end
 
     @table.model_array = @items
@@ -76,7 +80,8 @@ class AuthorListView
             row_hash['Имя автора'].include?(utf8_query)
           end,
           table_columns: {
-            'Номер' => :text,
+            '№' => :text,
+            'ID' => :text,
             'Имя автора' => :text,
             'Фамилия автора' => :text,
           },
