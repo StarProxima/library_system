@@ -19,9 +19,9 @@ CREATE TABLE Publisher
 CREATE TABLE Book
 (
     BookID      INT PRIMARY KEY AUTO_INCREMENT,
-    Title       VARCHAR(255),
-    AuthorID    INT,
-    PublisherID INT,
+    Title       VARCHAR(255) NOT NULL,
+    AuthorID    INT NOT NULL,
+    PublisherID INT NOT NULL,
     FOREIGN KEY (AuthorID) REFERENCES Author (AuthorID),
     FOREIGN KEY (PublisherID) REFERENCES Publisher (PublisherID)
 );
