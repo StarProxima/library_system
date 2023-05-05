@@ -6,8 +6,9 @@ class AuthorDBDataSource
     @client = DBClient.instance
   end
 
+
   def add(author)
-    query = "INSERT INTO Author (AuthorID, FirstName, LastName) VALUES (#{author.id}, '#{author.first_name}', '#{author.last_name}')"
+    query = "INSERT INTO Author (FirstName, LastName) VALUES ('#{author.first_name}', '#{author.last_name}')"
     @client.query(query)
   end
 
