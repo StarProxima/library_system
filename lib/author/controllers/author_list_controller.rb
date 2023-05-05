@@ -12,7 +12,11 @@ class AuthorListController
     @state_notifier = ListStateNotifier.new
     @state_notifier.add_listener(@view)
     @author_rep = AuthorDBDataSource.new
+    @sort_columns = %w[AuthorID FirstName LastName]
+    @sort_by = @sort_columns.first
   end
+
+
 
   def on_view_created
     # begin
@@ -62,9 +66,14 @@ class AuthorListController
     # rescue
     #   on_db_conn_error
     # end
-    items = @author_rep.get_list(per_page, page, 'FirstName', 'ASC' )
+    items = @author_rep.get_list(per_page, page, @sort_by, 'ASC' )
     @state_notifier.set_all(items)
     @view.update_student_count(@author_rep.count)
+  end
+
+  def sort(page, per_page, sort_index)
+    @sort_by = @sort_columns[sort_index]
+    refresh_data(page, per_page)
   end
 
 
