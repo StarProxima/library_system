@@ -6,14 +6,26 @@ class AuthorDBDataSource
     @client = DBClient.instance
   end
 
+  # def add(author)
+  #   query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', #{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"})"
+  #   @client.query(query)
+  # end
+
+
+
+
   def add(author)
     query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', #{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"})"
     @client.query(query)
+    author_id = @client.last_id
+    get(author_id)
   end
+
 
   def change(author)
     query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}', FatherName=#{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"} WHERE AuthorID=#{author.author_id}"
     @client.query(query)
+    get(author.author_id)
   end
 
   def delete(id)

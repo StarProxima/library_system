@@ -3,9 +3,9 @@
 require 'win32api'
 
 class AuthorInputFormControllerEdit
-  def initialize(parent_controller, item_id)
+  def initialize(parent_controller, item)
     @parent_controller = parent_controller
-    @item_id = item_id
+    @item = item
     @author_rep = AuthorDBDataSource.new
   end
 
@@ -20,7 +20,7 @@ class AuthorInputFormControllerEdit
     #   on_db_conn_error
     # end
 
-    @item = @author_rep.get(@item_id)
+    # @item = @author_rep.get(@item_id)
     # @view.make_readonly(:git, :telegram, :email, :phone)
     populate_fields(@item)
   end
@@ -33,8 +33,9 @@ class AuthorInputFormControllerEdit
 
   def process_fields(fields)
     begin
-      new_item = Author.new(@item_id, *fields.values)
-      @author_rep.change(new_item)
+      item = Author.new(@item.author_id, *fields.values)
+      item = @author_rep.change(item)
+      @parent_controller.state_notifier.replace(@item, item)
       @view.close
     rescue ArgumentError => e
       api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')

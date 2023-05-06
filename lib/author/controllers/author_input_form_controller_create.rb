@@ -25,7 +25,8 @@ class AuthorInputFormControllerCreate
       puts fields
       item = Author.new(-1, *fields.values)
       puts item
-      @author_rep.add(item)
+      item = @author_rep.add(item)
+      @parent_controller.state_notifier.add(item)
       @view.close
     rescue ArgumentError => e
       api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')

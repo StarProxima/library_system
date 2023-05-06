@@ -5,19 +5,6 @@ require_relative '../controllers/author_list_controller'
 require_relative '../controllers/author_controller'
 require_relative 'author_input_form'
 
-class Person
-  attr_accessor :country, :country_options
-
-  def initialize
-    self.country_options = ["", "Canada", "US", "Mexico"]
-    self.country = "Canada"
-  end
-
-  def reset_country
-    self.country = "Canada"
-  end
-end
-
 class AuthorListView
   include Glimmer
 
@@ -64,7 +51,6 @@ class AuthorListView
   end
 
   def create
-    person = Person.new
 
     root_container = horizontal_box {
       # Секция 1

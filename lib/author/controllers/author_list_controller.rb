@@ -4,9 +4,12 @@ require './lib/state_holders/list_state_notifier'
 require_relative '../ui/author_input_form'
 require_relative 'author_input_form_controller_create'
 require_relative 'author_input_form_controller_edit'
+require_relative '../author_db_data_source'
 require 'win32api'
 
 class AuthorListController
+
+  attr_reader :state_notifier;
   def initialize(view)
     @view = view
     @state_notifier = ListStateNotifier.new
@@ -44,9 +47,9 @@ class AuthorListController
   def show_modal_edit(current_page, per_page, selected_row)
     # item_num = (current_page - 1) * per_page + selected_row
 
-    item_id = @state_notifier.get(selected_row).author_id
+    item = @state_notifier.get(selected_row)
 
-    controller = AuthorInputFormControllerEdit.new(self, item_id)
+    controller = AuthorInputFormControllerEdit.new(self, item)
     view = AuthorInputForm.new(controller)
     controller.set_view(view)
     view.create.show
