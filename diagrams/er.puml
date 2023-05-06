@@ -1,0 +1,30 @@
+@startuml
+
+entity Author {
+  +AuthorID [PK]
+  --
+  FirstName
+  LastName
+  FatherName
+}
+
+entity Publisher {
+  +PublisherID [PK]
+  --
+  Name
+  Email
+}
+
+entity Book {
+  +BookID [PK]
+  --
+  Title
+  --
+  +AuthorID [FK]
+  +PublisherID [FK]
+}
+
+Author --{ Book
+Publisher --{ Book
+
+@enduml
