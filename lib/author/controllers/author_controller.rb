@@ -30,6 +30,7 @@
 #     # @view.show_add_dialog(author)
 #   end
 #
+#
 #   def remove (number)
 #     author = @state_notifier.get(number)
 #     puts author

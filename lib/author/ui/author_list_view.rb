@@ -57,20 +57,6 @@ class AuthorListView
       vertical_box {
         stretchy false
 
-        form {
-          stretchy false
-
-          @filter_first_name = entry {
-            label 'Имя автора'
-          }
-
-          @filter_last_name = entry {
-            label 'Фамилия автора'
-          }
-
-
-        }
-
         vertical_box {
           stretchy false
 

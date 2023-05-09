@@ -56,23 +56,11 @@ class PublisherListView
       vertical_box {
         stretchy false
 
-        form {
-          stretchy false
-
-          @filter_first_name = entry {
-            label 'Название'
-          }
-
-          @filter_last_name = entry {
-            label 'Почта'
-          }
-        }
-
         vertical_box {
           stretchy false
 
           label {
-            text 'Отчество'
+            text 'Почта'
           }
           combobox { |c|
             items ['Не важно','Есть','Нет']

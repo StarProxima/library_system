@@ -13,7 +13,7 @@ class MainWindow
   end
 
   def create
-    window('Библиотека', 900, 600) {
+    window('Библиотека', 1000, 600) {
       tab {
         tab_item('Авторы') {
           AuthorListView.new.create
