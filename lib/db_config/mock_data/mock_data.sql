@@ -34,20 +34,16 @@ VALUES
        ('Matthew', 'Baker', NULL),
        ('Samantha', 'Edwards', NULL);
 
--- Insert 5 publishers
+-- Insert 10 publishers
 INSERT INTO Publisher (Name, Email)
 VALUES
        ('Penguin Random House', 'info@penguinrandomhouse.com'),
        ('HarperCollins Publishers', NULL),
        ('Hachette Book Group', NULL),
        ('Macmillan Publishers', 'info@macmillan.com'),
-       ('Simon & Schuster', 'info@simonandschuster.com');
-
--- Insert 5 books
-INSERT INTO Book (Title, AuthorID, PublisherID)
-VALUES
-       ('To Kill a Mockingbird', 1, 1),
-       ('The Great Gatsby', 2, 2),
-       ('1984', 3, 3),
-       ('Pride and Prejudice', 4, 4),
-       ('The Catcher in the Rye', 5, 5);
+       ('Simon & Schuster', 'info@simonandschuster.com'),
+       ('Oxford University Press', NULL),
+       ('Cambridge University Press', 'info@cambridge.org'),
+       ('Pearson Education', NULL),
+       ('Wiley', 'info@wiley.com'),
+       ('Bloomsbury Publishing', 'info@bloomsbury.com');
