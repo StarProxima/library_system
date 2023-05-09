@@ -2,8 +2,8 @@
 
 require 'glimmer-dsl-libui'
 require_relative 'tab_students'
-require './lib/author/ui/author_view'
 require './lib/author/ui/author_list_view'
+require './lib/publisher/ui/publisher_list_view'
 
 class MainWindow
   include Glimmer
@@ -17,6 +17,9 @@ class MainWindow
       tab {
         tab_item('Авторы') {
           AuthorListView.new.create
+        }
+        tab_item('Издатели') {
+          PublisherListView.new.create
         }
 
 
