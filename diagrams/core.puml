@@ -1,0 +1,103 @@
+@startuml
+@startuml
+class AuthorDBDataSource {
+- client: DBClient
++ initialize()
++ add(author: Author): Author
++ change(author: Author): Author
++ delete(id: int): void
++ get(id: int): Author
++ get_list(page_size: int, page_num: int, sort_field: string, sort_direction: string, has_father_name: bool = nil): Author[]
++ count(): int
+}
+
+class PublisherDBDataSource {
+- client: DBClient
++ initialize()
++ add(publisher: Publisher): Publisher
++ change(publisher: Publisher): Publisher
++ delete(id: int): void
++ get(id: int): Publisher
++ get_list(page_size: int, page_num: int, sort_field: string, sort_direction: string, has_email: bool = nil): Publisher[]
++ count(): int
+}
+
+class BookDBDataSource {
+- client: DBClient
++ initialize()
++ add(book: Book): Book
++ change(book: Book): Book
++ delete(id: int): void
++ get(id: int): Book
++ get_list(page_size: int, page_num: int, sort_field: string, sort_direction: string, author_id: int = nil, publisher_id: int = nil, min_year: int = nil, max_year: int = nil): Book[]
++ count(author_id: int = nil, publisher_id: int = nil, min_year: int = nil, max_year: int = nil): int
+}
+
+class DBClient {
+- connection: Mysql2::Client
+- last_id: int
+- initialize()
++ query(query: string): Mysql2::Result
++ last_id(): int
+}
+
+class Author {
+  - author_id
+  - first_name
+  - last_name
+  - father_name
+
+  + initialize(author_id, first_name, last_name, father_name = nil)
+  - validate_null(name, value)
+  - validate_name_length(first_name, last_name, father_name)
+}
+
+class Book {
+  - book_id
+  - title
+  - author_id
+  - publisher_id
+
+  + initialize(book_id, title, author_id, publisher_id)
+  - validate_null(name, value)
+  - validate_title_length(title)
+}
+
+class Publisher {
+  EMAIL_REGEX
+  - publisher_id
+  - name
+  - email
+
+  + initialize(publisher_id, name, email = nil)
+  - validate_null(name, value)
+  - validate_name_length(name)
+  - validate_email(email)
+}
+class ListStateNotifier {
+  - items: Array
+  - listeners: Array
+  + initialize()
+  + set_all(objects: Array)
+  + add(object: Object)
+  + get(number: Integer): Object
+  + delete(object: Object)
+  + replace(object: Object, new_object: Object)
+  + add_listener(listener: Object)
+  + delete_listener(listener: Object)
+  - notify_listeners()
+}
+
+Author  --o Book
+Book o-- Publisher
+AuthorDBDataSource o-- DBClient
+PublisherDBDataSource o-- DBClient
+BookDBDataSource o-- DBClient
+AuthorDBDataSource ..> Author
+PublisherDBDataSource ..> Publisher
+BookDBDataSource ..> Book
+
+
+
+
+@enduml

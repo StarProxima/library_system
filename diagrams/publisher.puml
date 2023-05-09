@@ -1,0 +1,118 @@
+@startuml
+
+PublisherListView *-- PublisherListController
+PublisherListView --* PublisherListController
+
+PublisherListView -> PublisherInputForm
+PublisherListController o-- ListStateNotifier
+PublisherListController o-- PublisherDBDataSource
+
+PublisherInputFormControllerCreate o-- PublisherDBDataSource
+PublisherInputFormControllerEdit o-- PublisherDBDataSource
+
+PublisherInputForm *-- PublisherInputFormControllerCreate
+PublisherInputForm *-- PublisherInputFormControllerEdit
+PublisherInputForm --* PublisherInputFormControllerCreate
+PublisherInputForm --* PublisherInputFormControllerEdit
+PublisherDBDataSource o-- DBClient
+
+class PublisherDBDataSource {
+  + initialize()
+  + add(publisher: Publisher): Publisher
+  + change(publisher: Publisher): Publisher
+  + delete(id: Integer): void
+  + get(id: Integer): Publisher
+  + get_list(page_size: Integer, page_num: Integer, sort_field: String, sort_direction: String, has_father_name: Boolean): List<Publisher>
+  + count(): Integer
+}
+
+class DBClient {
+  + self.instance(): DBClient
+  + query(sql: String): Object
+  + last_id(): Integer
+}
+
+class PublisherListController {
+  - view: Object
+  - state_notifier: ListStateNotifier
+  - publisher_rep: PublisherDBDataSource
+  - sort_columns: Array<String>
+  - sort_by: String
+  - father_name_filter_columns: Array<Boolean>
+  - father_name_filter: Boolean
+  + on_view_created()
+  + show_view()
+  + show_modal_add()
+  + show_modal_edit(current_page: int, per_page: int, selected_row: int)
+  + delete_selected(current_page: int, per_page: int, selected_row: int)
+  + refresh_data(page: int, per_page: int)
+  + sort(page: int, per_page: int, sort_index: int)
+  + filter_father_name(page: int, per_page: int, filter_index: int)
+  - on_db_conn_error()
+}
+class ListStateNotifier {
+  - items: Array
+  - listeners: Array
+  + initialize()
+  + set_all(objects: Array)
+  + add(object: Object)
+  + get(number: Integer): Object
+  + delete(object: Object)
+  + replace(object: Object, new_object: Object)
+  + add_listener(listener: Object)
+  + delete_listener(listener: Object)
+  - notify_listeners()
+}
+class PublisherDBDataSource {
+  + get_list(limit: int, offset: int, sort_by: String, sort_order: String, father_name_filter: Boolean): Array<Publisher>
+  + add(item: Publisher): Publisher
+  + delete(id: int): void
+  + count(): int
+}
+class PublisherInputFormControllerCreate {
+  - parent_controller: PublisherListController
+  - publisher_rep: PublisherDBDataSource
+  - view: Object
+  + on_view_created()
+  + set_view(view: Object)
+  + process_fields(fields: Hash<String, String>): void
+  - on_db_conn_error()
+}
+class PublisherInputFormControllerEdit {
+  - parent_controller: PublisherListController
+  - item: Publisher
+  - publisher_rep: PublisherDBDataSource
+  - view: Object
+  + on_view_created()
+  + set_view(view: Object)
+  + populate_fields(item: Publisher): void
+  - on_db_conn_error()
+}
+class PublisherListView {
+  - PAGE_SIZE: integer = 20
+  - controller: PublisherListController
+  - current_page: integer = 1
+  - total_count: integer = 0
+  - items: Struct[]
+  - table: refined_table
+  - page_label: label
+  + initialize()
+  + on_create()
+  + update(publishers: Publisher[])
+  + update_student_count(new_cnt: integer)
+  + create()
+}
+
+class PublisherInputForm {
+  - item: Hash
+  - controller: PublisherInputFormControllerCreate
+  - entries: Hash
+  + initialize(controller: PublisherInputFormControllerCreate, existing_student: Publisher)
+  + on_create()
+  + create()
+}
+
+
+
+
+@enduml
