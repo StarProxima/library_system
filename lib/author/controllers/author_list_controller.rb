@@ -7,9 +7,13 @@ require_relative 'author_input_form_controller_edit'
 require_relative '../author_db_data_source'
 require 'win32api'
 
+# Класс AuthorListController отвечает за управление списком
+# авторов, используя различные методы для обновления данных и
+# взаимодействия с пользовательским интерфейсом.
 class AuthorListController
 
   attr_reader :state_notifier;
+
   def initialize(view)
     @view = view
     @state_notifier = ListStateNotifier.new
@@ -22,8 +26,6 @@ class AuthorListController
     @father_name_filter_columns = [nil, true, false]
     @father_name_filter = @father_name_filter_columns.first
   end
-
-
 
   def on_view_created
     # begin
@@ -44,7 +46,8 @@ class AuthorListController
     view.create.show
   end
 
-  def show_modal_edit(current_page, per_page, selected_row)
+  # метод, который создает контроллер AuthorInputFormControllerEdit, представление AuthorInputForm, устанавливает связи между ними и показывает модальное окно.
+    def show_modal_edit(current_page, per_page, selected_row)
     # item_num = (current_page - 1) * per_page + selected_row
 
     item = @state_notifier.get(selected_row)
@@ -55,6 +58,7 @@ class AuthorListController
     view.create.show
   end
 
+  # метод, который получает выбранный элемент из state_notifier, удаляет его из базы данных и из state_notifier
   def delete_selected(current_page, per_page, selected_row)
     begin
       item = @state_notifier.get(selected_row)
@@ -66,6 +70,7 @@ class AuthorListController
     end
   end
 
+  # етод, который получает список авторов из базы данных, устанавливает их в state_notifier и обновляет пользовательский интерфейс
   def refresh_data(page, per_page)
     # begin
     #   @data_list = @student_rep.paginated_short_students(page, per_page, @data_list)
@@ -87,7 +92,6 @@ class AuthorListController
     @father_name_filter = @father_name_filter_columns[filter_index]
     refresh_data(page, per_page)
   end
-
 
   private
 

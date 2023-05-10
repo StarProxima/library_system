@@ -13,7 +13,7 @@ class AuthorDBDataSource
 
 
 
-
+  # добавляет нового автора в базу данных, возвращает созданную запись.
   def add(author)
     query = "INSERT INTO Author (FirstName, LastName, FatherName) VALUES ('#{author.first_name}', '#{author.last_name}', #{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"})"
     @client.query(query)
@@ -21,18 +21,20 @@ class AuthorDBDataSource
     get(author_id)
   end
 
-
+  #  изменяет данные об авторе в базе данных, возвращает измененную запись.
   def change(author)
     query = "UPDATE Author SET FirstName='#{author.first_name}', LastName='#{author.last_name}', FatherName=#{author.father_name.nil? ? 'NULL' : "'#{author.father_name}'"} WHERE AuthorID=#{author.author_id}"
     @client.query(query)
     get(author.author_id)
   end
 
+  # удаляет запись об авторе из базы данных.
   def delete(id)
     query = "DELETE FROM Author WHERE AuthorID=#{id}"
     @client.query(query)
   end
 
+  #  возвращает запись об авторе по заданному id.
   def get(id)
     query = "SELECT * FROM Author WHERE AuthorID=#{id}"
     result = @client.query(query).first
@@ -56,6 +58,7 @@ class AuthorDBDataSource
   #   authors
   # end
 
+  # возвращает список авторов с учетом фильтра по наличию отчества и сортировки, позволяет задавать количество элементов на странице и номер страницы.
   def get_list(page_size, page_num, sort_field, sort_direction, has_father_name = nil)
     offset = (page_num - 1) * page_size
     query = "SELECT * FROM Author"
@@ -77,7 +80,7 @@ class AuthorDBDataSource
     authors
   end
 
-
+  # возвращает количество записей об авторах в базе данных.
   def count
     query = "SELECT COUNT(*) FROM Author"
     result = @client.query(query).first

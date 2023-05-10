@@ -23,9 +23,9 @@ class MainWindow
         }
 
 
-        tab_item('Студенты') {
-          @view_tab_students.create
-        }
+        # tab_item('Студенты') {
+        #   @view_tab_students.create
+        # }
       }
     }
   end
