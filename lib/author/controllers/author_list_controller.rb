@@ -15,6 +15,7 @@ class AuthorListController
   attr_reader :state_notifier;
 
   def initialize(view)
+    LoggerHolder.instance.debug('AuthorListController: initialize')
     @view = view
     @state_notifier = ListStateNotifier.new
     @state_notifier.add_listener(@view)
@@ -40,6 +41,7 @@ class AuthorListController
   end
 
   def show_modal_add
+    LoggerHolder.instance.debug('AuthorListController: show_modal_add')
     controller = AuthorInputFormControllerCreate.new(self)
     view = AuthorInputForm.new(controller)
     controller.set_view(view)
@@ -48,6 +50,7 @@ class AuthorListController
 
   # метод, который создает контроллер AuthorInputFormControllerEdit, представление AuthorInputForm, устанавливает связи между ними и показывает модальное окно.
     def show_modal_edit(current_page, per_page, selected_row)
+      LoggerHolder.instance.debug('AuthorListController: show_modal_edit')
     # item_num = (current_page - 1) * per_page + selected_row
 
     item = @state_notifier.get(selected_row)
@@ -60,6 +63,7 @@ class AuthorListController
 
   # метод, который получает выбранный элемент из state_notifier, удаляет его из базы данных и из state_notifier
   def delete_selected(current_page, per_page, selected_row)
+    LoggerHolder.instance.debug('AuthorListController: delete_selected')
     begin
       item = @state_notifier.get(selected_row)
       @author_rep.delete(item.author_id)
