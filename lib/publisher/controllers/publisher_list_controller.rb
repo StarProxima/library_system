@@ -75,7 +75,7 @@ class PublisherListController
     # end
     items = @publisher_rep.get_list(per_page, page, @sort_by, 'ASC', @email_filter)
     @state_notifier.set_all(items)
-    @view.update_student_count(@publisher_rep.count)
+    @view.update_count(@publisher_rep.count)
   end
 
   def sort(page, per_page, sort_index)

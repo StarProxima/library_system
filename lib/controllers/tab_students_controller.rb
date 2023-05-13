@@ -28,7 +28,7 @@ class TabStudentsController
   def refresh_data(page, per_page)
     begin
       @data_list = @student_rep.paginated_short_students(page, per_page, @data_list)
-      @view.update_student_count(@student_rep.student_count)
+      @view.update_count(@student_rep.student_count)
     rescue
       on_db_conn_error
     end

@@ -1,3 +1,5 @@
+
+require ''
 class ListStateNotifier
   attr_reader :items
 

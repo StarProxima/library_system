@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+actor       Пользователь                        as user
+boundary    "ts: AuthorListView"                   as ts
+control     "tsс: AuthorListController"        as tsc
+boundary    "sif: AuthorInputForm"             as sif
+control     "sifcc: AuthorInputFormControllerCreate"  as sifcc
+entity      "srep: AuthorDBDataSource"           as srep
+
+user -> ts : Клик на <<Добавить>>
+ts -> tsc : show_modal_add
+tsc -> sifcc : <<new>>
+sifcc --> tsc
+tsc -> sif : <<new>>
+sif --> tsc
+tsc -> sifcc : set_view
+sifcc --> tsc
+tsc -> sif : create
+sif -> sifcc : on_view_created
+sifcc -> srep : <<new>>
+srep --> sifcc
+sifcc --> sif
+sif --> tsc
+tsc -> sif : show
+sif --> tsc
+tsc --> ts
+ts --> user
+
+user -> sif : Клик на <<Сохранить>>
+sif -> sifcc : process_fields
+sifcc -> srep : add
+srep --> sifcc
+sifcc -> tsc : state_notidier.add
+tsc --> sifcc
+sifcc -> sif : close
+sif --> sifcc
+sifcc --> sif
+sif --> user
+
+
+@enduml

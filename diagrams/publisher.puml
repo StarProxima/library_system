@@ -22,7 +22,7 @@ class PublisherDBDataSource {
   + change(publisher: Publisher): Publisher
   + delete(id: Integer): void
   + get(id: Integer): Publisher
-  + get_list(page_size: Integer, page_num: Integer, sort_field: String, sort_direction: String, has_father_name: Boolean): List<Publisher>
+  + get_list(page_size: Integer, page_num: Integer, sort_field: String, sort_direction: String, has_email: Boolean): List<Publisher>
   + count(): Integer
 }
 
@@ -38,8 +38,8 @@ class PublisherListController {
   - publisher_rep: PublisherDBDataSource
   - sort_columns: Array<String>
   - sort_by: String
-  - father_name_filter_columns: Array<Boolean>
-  - father_name_filter: Boolean
+  - email_filter_columns: Array<Boolean>
+  - email_filter: Boolean
   + on_view_created()
   + show_view()
   + show_modal_add()
@@ -47,7 +47,7 @@ class PublisherListController {
   + delete_selected(current_page: int, per_page: int, selected_row: int)
   + refresh_data(page: int, per_page: int)
   + sort(page: int, per_page: int, sort_index: int)
-  + filter_father_name(page: int, per_page: int, filter_index: int)
+  + filter_email(page: int, per_page: int, filter_index: int)
   - on_db_conn_error()
 }
 class ListStateNotifier {
@@ -63,12 +63,7 @@ class ListStateNotifier {
   + delete_listener(listener: Object)
   - notify_listeners()
 }
-class PublisherDBDataSource {
-  + get_list(limit: int, offset: int, sort_by: String, sort_order: String, father_name_filter: Boolean): Array<Publisher>
-  + add(item: Publisher): Publisher
-  + delete(id: int): void
-  + count(): int
-}
+
 class PublisherInputFormControllerCreate {
   - parent_controller: PublisherListController
   - publisher_rep: PublisherDBDataSource
@@ -99,7 +94,7 @@ class PublisherListView {
   + initialize()
   + on_create()
   + update(publishers: Publisher[])
-  + update_student_count(new_cnt: integer)
+  + update_count(new_cnt: integer)
   + create()
 }
 
@@ -107,12 +102,9 @@ class PublisherInputForm {
   - item: Hash
   - controller: PublisherInputFormControllerCreate
   - entries: Hash
-  + initialize(controller: PublisherInputFormControllerCreate, existing_student: Publisher)
+  + initialize(controller: PublisherInputFormControllerCreate, item: Publisher)
   + on_create()
   + create()
 }
-
-
-
 
 @enduml

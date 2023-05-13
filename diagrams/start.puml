@@ -4,12 +4,11 @@ participant "main.rb"                       as main
 
 
 
-boundary    "mw: MainWindow"                as mw
-boundary    "ts: AuthorListView"               as ts
-control     "tsc: AuthorListController"    as tsc
-entity      "dlss: ListStateNotifier"    as dlss
-entity      "srep: AuthorDBDataSource"       as srep
-entity      "dbsa: DBSourceAdapter"         as dbsa
+boundary    "MainWindow"                as mw
+boundary    "AuthorListView"               as ts
+control     "AuthorListController"    as tsc
+entity      "ListStateNotifier"    as dlss
+entity      "AuthorDBDataSource"       as srep
 entity      "DBClient"            as dbds
 
 database    DB                              as db
@@ -17,9 +16,9 @@ database    DB                              as db
 main -> mw : <<new>>
 mw -> ts : <<new>>
 ts -> tsc : <<new>>(self)
-tsc -> dlss : <<new>>(Array)
+tsc -> dlss : <<new>>
 dlss --> tsc
-tsc -> dlss : add_listener(AuthorListView)
+tsc -> dlss : add_listener
 dlss --> tsc
 tsc --> ts
 ts --> mw
@@ -28,47 +27,41 @@ mw --> main
 main -> mw : create()
 mw -> ts : create()
 ts -> tsc : on_view_created()
-tsc -> dbsa : <<new>>
-dbsa -> dbds : <<instance>>
+tsc -> srep : <<new>>
+srep -> dbds : <<instance>>
 dbds -> dbds : <<new>>
 dbds -> db : [connect]
 db --> dbds
-dbds --> dbsa
-dbsa --> tsc
-tsc -> srep : <<new>>(DBSourceAdapter)
+dbds --> srep
+srep --> tsc
+tsc -> srep : <<new>>
 srep --> tsc
 tsc --> ts
 
-ts -> tsc : refresh_data(Integer, Integer)
-tsc -> srep : get_list(Integer, Integer, ListStateNotifier)
-srep -> dbsa : get_list(Integer, Integer, ListStateNotifier)
-dbsa -> dbds : prepare_exec(String, Integer, Integer)
+ts -> tsc : refresh_data
+tsc -> srep : get_list
+srep -> dbds : prepare_exec
 dbds -> db : [SELECT]
 db --> dbds
-dbds --> dbsa
-dbsa -> dlss : <<new>>(Array)
-dlss --> dbsa
-dbsa -> dlss : replace_objects(Array)
-dlss -> ts : update(ListStateNotifier)
+dbds --> srep
+srep -> dlss : <<new>>
+dlss --> srep
+srep -> dlss : set_all
+dlss -> ts : update
 ts --> dlss
-dlss --> dbsa
-dbsa --> srep
+dlss --> srep
 srep --> tsc
 
-tsc -> srep : student_count()
-srep -> dbsa : student_count()
-dbsa -> dbds: query(String)
+tsc -> srep : count
+srep -> dbds: query
 dbds -> db : [SELECT]
 db --> dbds
-dbds --> dbsa
-dbsa --> srep
+dbds --> srep
 srep --> tsc
-tsc -> ts : update_student_count(Integer)
+tsc -> ts : update_count
 ts --> tsc
 tsc --> ts
 ts --> mw
 mw --> main
-
-
 
 @enduml

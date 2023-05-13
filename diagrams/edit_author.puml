@@ -2,11 +2,11 @@
 'https://plantuml.com/sequence-diagram
 
 actor       Пользователь                        as user
-boundary    "ts: AuthorListView"                   as ts
-control     "tsс: AuthorListController"        as tsc
-boundary    "sif: AuthorInputForm"             as sif
-control     "sifce: AuthorInputFormControllerEdit"  as sifce
-entity      "srep: AuthorDBDataSource"           as srep
+boundary    "AuthorListView"                   as ts
+control     "AuthorListController"        as tsc
+boundary    "AuthorInputForm"             as sif
+control     "AuthorInputFormControllerEdit"  as sifce
+entity      "AuthorDBDataSource"           as srep
 
 user -> ts : Клик на <<Изменить>>
 ts -> tsc : show_modal_edit
@@ -20,10 +20,8 @@ tsc -> sif : create
 sif -> sifce : on_view_created
 sifce -> srep : <<new>>
 srep --> sifce
-sifce -> srep : student_by_id
+sifce -> srep : get
 srep --> sifce
-sifce -> sif : make_readonly
-sif --> sifce
 sifce -> sif : set_value
 sif --> sifce
 sifce --> sif
@@ -35,14 +33,12 @@ ts --> user
 
 user -> sif : Клик на <<Сохранить>>
 sif -> sifce : process_fields
-sifce -> srep : replace_student
+sifce -> srep : change
 srep --> sifce
 sifce -> sif : close
 sif --> sifce
 sifce --> sif
 sif --> user
-
-
 
 @enduml
 
